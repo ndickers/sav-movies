@@ -7,7 +7,7 @@ export async function GET() {
         const data = await fetchMovies("/movie/popular");
         return NextResponse.json(data.results);
     } catch (error) {
-        return NextResponse.json({ error: "Failed to fetch movies" }, { status: 500 });
+        return NextResponse.json({ error: error || "Failed to fetch movies" }, { status: 500 });
     }
 }
 

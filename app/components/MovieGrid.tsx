@@ -5,7 +5,12 @@ export default function MovieGrid({
   movies,
   loading,
 }: {
-  movies: any[];
+  movies: {
+    id: number;
+    poster_path: string;
+    title: string;
+    overview: string;
+  }[];
   loading: boolean;
 }) {
   return (

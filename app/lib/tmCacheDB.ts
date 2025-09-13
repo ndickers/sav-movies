@@ -1,5 +1,5 @@
 const BASE_URL = "https://api.themoviedb.org/3";
-const cache: Record<string, any> = {};
+const cache: Record<string, unknown> = {};
 
 export async function fetchMovies(endpoint: string) {
     if (cache[endpoint]) {

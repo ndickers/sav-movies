@@ -1,7 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
 
-export default function MovieCard({ movie }: { movie: any }) {
+export default function MovieCard({
+  movie,
+}: {
+  movie: { id: number; poster_path: string; title: string; overview: string };
+}) {
   return (
     <Link href={`/dashboard/movies/${movie.id}`}>
       <div className="bg-white rounded-2xl w-[250px] h-full shadow-md overflow-hidden hover:scale-105 transition p-2">
