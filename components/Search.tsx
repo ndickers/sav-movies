@@ -12,6 +12,7 @@ function SearchMovie() {
       const params = new URLSearchParams(window.location.search);
       if (term) {
         params.set("search", term);
+        params.set("page", "1");
       } else {
         params.delete("search");
       }

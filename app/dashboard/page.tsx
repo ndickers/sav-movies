@@ -1,9 +1,10 @@
 import MovieGrid from "@/components/MovieGrid";
 import Navbar from "../../components/Navbar";
-async function getMovies(search: string) {
+import Link from "next/link";
+async function getMovies(search: string, page: number) {
   const params = new URLSearchParams();
   params.set("api_key", process.env.TMDB_API_KEY as string);
-
+  params.set("page", page.toString());
   if (search) {
     params.set("search", search);
   }
@@ -19,17 +20,42 @@ async function getMovies(search: string) {
 export default async function Home({
   searchParams,
 }: {
-  searchParams: Promise<{ search: string }>;
+  searchParams: { search: string; page: number };
 }) {
-  const getParams = await searchParams;
-  const movies = await getMovies(getParams.search);
+  const getParams = searchParams;
+  const page = Number(searchParams?.page) || 1;
+  const movies = await getMovies(getParams.search, page);
   return (
     <main className="max-w-6xl mx-auto p-6">
       <div>
         <h1 className="text-3xl font-bold mb-6">🎬 Recommended Movies</h1>
         <Navbar />
       </div>
-      <MovieGrid movies={movies} />
+      <MovieGrid movies={movies.results} />
+
+      <div className="flex justify-center items-center gap-8 mt-6">
+        <Link
+          href={`/dashboard?page=${movies.page - 1}`}
+          className={`px-4 py-2 rounded bg-gray-200 ${
+            movies.page === 1 ? "pointer-events-none opacity-50" : ""
+          }`}
+        >
+          Prev
+        </Link>
+        <span>
+          Page {movies.page} of {movies.total_pages}
+        </span>
+        <Link
+          href={`/dashboard?page=${movies.page + 1}`}
+          className={`px-4 py-2 rounded bg-gray-200 ${
+            movies.page === movies.total_pages
+              ? "pointer-events-none opacity-50"
+              : ""
+          }`}
+        >
+          Next
+        </Link>
+      </div>
     </main>
   );
 }

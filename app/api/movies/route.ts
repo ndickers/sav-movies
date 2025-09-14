@@ -3,7 +3,10 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(req: NextRequest) {
     const { searchParams } = new URL(req.url);
     const search = searchParams.get("search");
+    const page = searchParams.get("page") ?? "1";
     const apiKey = process.env.TMDB_API_KEY;
+
+    console.log({ page });
 
     if (!apiKey) {
         return NextResponse.json(
@@ -16,9 +19,9 @@ export async function GET(req: NextRequest) {
         if (search && search.trim()) {
             tmdbUrl = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${encodeURIComponent(
                 search
-            )}`;
+            )}&page=${page}`;
         } else {
-            tmdbUrl = `https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}`;
+            tmdbUrl = `https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&page=${page}`;
         }
 
         const res = await fetch(tmdbUrl);
@@ -27,7 +30,8 @@ export async function GET(req: NextRequest) {
         }
 
         const data = await res.json();
-        return NextResponse.json(data.results);
+
+        return NextResponse.json(data);
     } catch (error) {
         console.error("Failed to fetch movies:", error);
         return NextResponse.json(
