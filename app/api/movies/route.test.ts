@@ -12,7 +12,7 @@ jest.mock("next/server", () => {
         NextResponse: {
             json: jest.fn((data, init) => ({
                 status: init?.status ?? 200,
-                json: async () => data, // ✅ behaves like real Response.json()
+                json: async () => data,
             })),
         },
     };
@@ -20,8 +20,7 @@ jest.mock("next/server", () => {
 
 describe("GET /api/movies", () => {
     const OLD_ENV = process.env;
-
-    const mockFetch = (data: any, ok = true) => {
+    const mockFetch = (data: { results: { id: number, title: string }[] }, ok = true) => {
         global.fetch = jest.fn(() =>
             Promise.resolve({
                 ok,
@@ -90,6 +89,8 @@ describe("GET /api/movies", () => {
 
         const data = await res.json();
         expect(res.status).toBe(500);
-        expect(data.error).toBe("Failed to fetch movies");
+        expect(typeof data.error).toBe("string");
+        expect(data.error).toMatch(/Network error|Failed to fetch movies/);
+
     });
 });

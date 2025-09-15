@@ -32,9 +32,19 @@ export async function GET(req: NextRequest) {
 
         return NextResponse.json(data);
     } catch (error) {
+        const errorMessage =
+            error instanceof Error
+                ? error.message
+                : typeof error === "string"
+                    ? error
+                    : typeof error === "object" && error !== null
+                        ? JSON.stringify(error)
+                        : "Failed to fetch movies";
+
         return NextResponse.json(
-            { error: "Failed to fetch movies" },
+            { error: errorMessage },
             { status: 500 }
         );
-    }
+}
+
 }

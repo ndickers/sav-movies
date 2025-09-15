@@ -4,15 +4,26 @@ import MovieCard from "../MovieCard";
 import "@testing-library/jest-dom";
 
 jest.mock("next/link", () => {
-  return ({ href, children }: { href: string; children: React.ReactNode }) =>
-    React.createElement("a", { href }, children);
+  const MockLink = ({
+    href,
+    children,
+  }: {
+    href: string;
+    children: React.ReactNode;
+  }) => React.createElement("a", { href }, children);
+
+  MockLink.displayName = "MockLink";
+  return MockLink;
 });
 
 jest.mock("next/image", () => {
-  return function Image({ src, alt }: { src: string; alt: string }) {
-    return React.createElement("img", { src, alt });
-  };
+  const MockImage = ({ src, alt }: { src: string; alt: string }) =>
+    React.createElement("img", { src, alt });
+
+  MockImage.displayName = "MockImage";
+  return MockImage;
 });
+
 
 describe("MovieCard", () => {
   const mockMovie = {

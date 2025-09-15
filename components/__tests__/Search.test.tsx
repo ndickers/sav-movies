@@ -8,7 +8,7 @@ jest.mock("next/navigation", () => ({
   useSearchParams: () => new URLSearchParams("search=batman"),
 }));
 
-jest.mock("lodash.debounce", () => (fn: any) => fn);
+jest.mock("lodash.debounce", () => (fn: () => void) => fn);
 
 describe("Search component", () => {
   beforeEach(() => {

@@ -1,6 +1,6 @@
 import { GET } from "./route";
 import { fetchMovies } from "@/app/lib/tmCacheDB";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 jest.mock("@/app/lib/tmCacheDB", () => ({
     fetchMovies: jest.fn(),
@@ -24,7 +24,7 @@ describe("GET /api/movies/[id]", () => {
         });
 
         const params = Promise.resolve({ id: "123" });
-        const req = {} as any;
+        const req = {} as NextRequest;
 
         const res = await GET(req, { params });
         expect(fetchMovies).toHaveBeenCalledWith("/movie/123");
@@ -40,7 +40,7 @@ describe("GET /api/movies/[id]", () => {
         (fetchMovies as jest.Mock).mockRejectedValue(new Error("API Error"));
 
         const params = Promise.resolve({ id: "999" });
-        const req = {} as any;
+        const req = {} as NextRequest;
 
         const res = await GET(req, { params });
 

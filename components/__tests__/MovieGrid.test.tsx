@@ -3,7 +3,7 @@ import MovieGrid from "../MovieGrid";
 import "@testing-library/jest-dom";
 
 jest.mock("../MovieCard", () => {
-  return function MockMovieCard({ movie }: { movie: any }) {
+  return function MockMovieCard({ movie }: { movie: { title: string } }) {
     return <div data-testid="movie-card">{movie.title}</div>;
   };
 });
