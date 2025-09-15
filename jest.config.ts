@@ -5,19 +5,14 @@ const config: Config = {
     testEnvironment: "jsdom",
     setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
     transform: {
-        "^.+\\.(ts|tsx)$": [
-            "ts-jest",
-            {
-                tsconfig: "tsconfig.jest.json",
-            },
-        ],
+        "^.+\\.(ts|tsx)$": ["ts-jest", { tsconfig: "tsconfig.jest.json" }]
     },
-    transformIgnorePatterns: [
-        "/node_modules/(?!(next|@next|@mui)/)",
+    transformIgnorePatterns: ["/node_modules/(?!(next|@next|@mui)/)"],
+    moduleNameMapper: { "^@/(.*)$": "<rootDir>/$1" },
+    testMatch: [
+        "<rootDir>/**/__tests__/**/*.[jt]s?(x)",
+        "<rootDir>/**/?(*.)+(spec|test).[jt]s?(x)"
     ],
-    moduleNameMapper: {
-        "^@/(.*)$": "<rootDir>/$1"
-    },
 };
 
 export default config;
