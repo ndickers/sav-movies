@@ -1,0 +1,7 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "module": "commonjs", // ✅ required for Jest
+    "jsx": "react-jsx" // ✅ ensure TS compiles JSX correctly
+  }
+}

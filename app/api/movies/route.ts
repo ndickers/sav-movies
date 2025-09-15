@@ -6,7 +6,6 @@ export async function GET(req: NextRequest) {
     const page = searchParams.get("page") ?? "1";
     const apiKey = process.env.TMDB_API_KEY;
 
-    console.log({ page });
 
     if (!apiKey) {
         return NextResponse.json(
@@ -33,7 +32,6 @@ export async function GET(req: NextRequest) {
 
         return NextResponse.json(data);
     } catch (error) {
-        console.error("Failed to fetch movies:", error);
         return NextResponse.json(
             { error: "Failed to fetch movies" },
             { status: 500 }
